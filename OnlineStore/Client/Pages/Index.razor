@@ -1,0 +1,26 @@
+﻿@page "/"
+@page "/{categoryurl}"
+@page "/search/{searchtext}"
+@inject IProductServ procserv
+
+<ProductList></ProductList>
+
+@code{
+
+    [Parameter]
+    public string categoryurl { get; set; }
+
+    [Parameter]
+    public string searchtext { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if(searchtext!=null)
+        {
+            await procserv.SearchProducts(searchtext);
+            return;
+        }
+
+        await procserv.GetProducts(categoryurl);
+    }
+}

@@ -1,0 +1,58 @@
+﻿@inject HttpClient http
+@inject IProductServ procServ
+@implements IDisposable
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-outline-primary" href="newcategory">
+                    Add new category
+                </a>
+            </div>
+            <div class="col-10">
+                <a class="btn btn-outline-primary" href="newproduct">
+                    Add new Product
+                </a>
+            </div>
+        </div>
+    </div>
+    @if (procServ.Products == null || procServ.Products.Count == 0)
+    {
+        <span>Looding..</span>
+    }
+    else
+    {
+
+
+        <ul class="list-unstyled">
+            @foreach (var product in procServ.Products)
+            {
+                <li class="media my-3">
+                    <div class="media-img-warrper mr-2">
+                        <a href="/product/@product.Id">
+                            <img src="@product.ImgURL" alt="@product.Title" class="media-img" />
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <a href="/product/@product.Id">
+                            <h4 class="mb-0">@product.Title</h4>
+                        </a>
+                        <p>@product.Description</p>
+                        <h5 class="price">$@product.Price</h5>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+
+    @code {
+
+        protected override void OnInitialized()
+        {
+            procServ.ProductsChanged += StateHasChanged;
+        }
+
+        public void Dispose()
+        {
+            procServ.ProductsChanged -= StateHasChanged;
+        }
+    }

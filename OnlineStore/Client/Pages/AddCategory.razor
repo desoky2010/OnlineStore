@@ -1,0 +1,27 @@
+﻿@page "/newcategory"
+@inject ICategoryServ cateserv
+<h3>AddCategory</h3>
+
+<EditForm Model="Category" OnSubmit="handelcreate">
+    <div>
+        <label for="CategoryName">Category Name </label>
+        <InputText id="CategoryName" @bind-Value="Category.Name" class="form-control"></InputText>
+    </div>
+    <div>
+        <label for="categoryurl">Category URL </label>
+        <InputText id="categoryurl" @bind-Value="Category.URL" class="form-control"></InputText>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
+
+@code {
+    Category Category = new Category();
+
+    
+
+    async Task handelcreate()
+    {
+        await cateserv.addcategory(Category);
+    }
+}
